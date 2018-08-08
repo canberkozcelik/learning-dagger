@@ -1,0 +1,52 @@
+package com.cnb.learningdagger.models;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.support.annotation.NonNull;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.cnb.learningdagger.R;
+import com.cnb.learningdagger.network.response.Event;
+import com.squareup.picasso.Picasso;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+@SuppressLint("ViewConstructor")
+public class EventListItem extends FrameLayout {
+
+    @BindView(R.id.title)
+    TextView title;
+
+    @BindView(R.id.start_date)
+    TextView startDate;
+
+    @BindView(R.id.end_date)
+    TextView endDate;
+
+    @BindView(R.id.event_image)
+    ImageView eventImage;
+
+//    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.fullDate();
+
+    public EventListItem(@NonNull Context context) {
+        super(context);
+        inflate(getContext(), R.layout.list_item_event, this);
+        ButterKnife.bind(this);
+    }
+
+    public void setEvent(Event event) {
+//        Locale locale = getResources().getConfiguration().locale;
+
+        title.setText(event.title);
+        startDate.setText(event.startDate);
+        endDate.setText(event.endDate);
+
+//        secretly dependant on
+        Picasso.with(getContext())
+                .load(event.imageUrl)
+                .into(eventImage);
+    }
+}
