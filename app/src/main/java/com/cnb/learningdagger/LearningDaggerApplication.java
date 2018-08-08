@@ -25,7 +25,9 @@ public class LearningDaggerApplication extends Application {
     }
 
     private POService poService;
+    private Picasso picasso;
 
+//    Dependencies:
 //                              Activity
 //          POService                       Picasso
 //          Retrofit                        OkHttpDownloader
@@ -54,7 +56,7 @@ public class LearningDaggerApplication extends Application {
                 .addInterceptor(loggingInterceptor)
                 .build();
 
-        Picasso picasso = new Picasso.Builder(this)
+        picasso = new Picasso.Builder(this)
                 .downloader(new OkHttp3Downloader(okHttpClient))
                 .build();
 
@@ -71,5 +73,9 @@ public class LearningDaggerApplication extends Application {
 
     public POService getPoService() {
         return poService;
+    }
+
+    public Picasso getPicasso() {
+        return picasso;
     }
 }

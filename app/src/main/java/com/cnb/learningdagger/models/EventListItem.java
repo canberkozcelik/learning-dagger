@@ -29,10 +29,13 @@ public class EventListItem extends FrameLayout {
     @BindView(R.id.event_image)
     ImageView eventImage;
 
+    private final Picasso picasso;
+
 //    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormat.fullDate();
 
-    public EventListItem(@NonNull Context context) {
+    public EventListItem(@NonNull Context context, Picasso picasso) {
         super(context);
+        this.picasso = picasso;
         inflate(getContext(), R.layout.list_item_event, this);
         ButterKnife.bind(this);
     }
@@ -45,8 +48,7 @@ public class EventListItem extends FrameLayout {
         endDate.setText(event.endDate);
 
 //        secretly dependant on
-        Picasso.with(getContext())
-                .load(event.imageUrl)
+        picasso.load(event.imageUrl)
                 .into(eventImage);
     }
 }

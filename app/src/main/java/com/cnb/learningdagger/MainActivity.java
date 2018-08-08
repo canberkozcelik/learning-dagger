@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.cnb.learningdagger.models.AdapterEvents;
 import com.cnb.learningdagger.network.POService;
 import com.cnb.learningdagger.network.response.PublicEventsResponse;
+import com.squareup.picasso.Picasso;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -21,10 +22,12 @@ public class MainActivity extends AppCompatActivity {
     ListView evenListView;
 
     POService poService;
+    private Picasso picasso;
 
     Call<PublicEventsResponse> eventsCall;
 
     AdapterEvents adapterEvents;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,10 +35,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        adapterEvents = new AdapterEvents(this);
-        evenListView.setAdapter(adapterEvents);
-
         poService = LearningDaggerApplication.get(this).getPoService();
+        picasso = LearningDaggerApplication.get(this).getPicasso();
+        adapterEvents = new AdapterEvents(this, picasso);
+        evenListView.setAdapter(adapterEvents);
 
         eventsCall = poService.getPublicEvents();
         eventsCall.enqueue(new Callback<PublicEventsResponse>() {

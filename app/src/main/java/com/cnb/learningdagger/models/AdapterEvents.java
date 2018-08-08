@@ -7,6 +7,7 @@ import android.widget.BaseAdapter;
 
 import com.cnb.learningdagger.network.response.Event;
 import com.cnb.learningdagger.network.response.PublicEventsResponse;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,9 +16,11 @@ public class AdapterEvents extends BaseAdapter {
 
     private final Context context;
     private List<Event> eventList = new ArrayList<>(0);
+    private final Picasso picasso;
 
-    public AdapterEvents(Context context) {
+    public AdapterEvents(Context context, Picasso picasso) {
         this.context = context;
+        this.picasso = picasso;
     }
 
     @Override
@@ -39,7 +42,7 @@ public class AdapterEvents extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         EventListItem eventListItem;
         if (convertView != null) {
-            eventListItem = new EventListItem(context);
+            eventListItem = new EventListItem(context, picasso);
         } else {
             eventListItem = EventListItem.class.cast(convertView);
         }
