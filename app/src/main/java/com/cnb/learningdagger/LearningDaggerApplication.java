@@ -4,18 +4,8 @@ import android.app.Activity;
 import android.app.Application;
 
 import com.cnb.learningdagger.network.POService;
-import com.fatboyindustrial.gsonjodatime.DateTimeConverter;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
-import org.joda.time.DateTime;
-
-import okhttp3.OkHttpClient;
-import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
 public class LearningDaggerApplication extends Application {
@@ -35,40 +25,23 @@ public class LearningDaggerApplication extends Application {
 //                                      Logger    Cache
 //                                      Timber    File
 
+//    Groups -> [picasso, okhttpdownloader],[gson, retrofit, poservice], [okhttp, logger, cache, timber, file]
+
     @Override
     public void onCreate() {
         super.onCreate();
 
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(DateTime.class, new DateTimeConverter());
-        Gson gson = gsonBuilder.create();
-
         Timber.plant(new Timber.DebugTree());
 
-        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
-            @Override
-            public void log(String message) {
-                Timber.i(message);
-            }
-        });
-
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .addInterceptor(loggingInterceptor)
+        LearningDaggerApplicationComponent component = DaggerLearningDaggerApplicationComponent.builder()
+                .contextModule(new ContextModule(this))
+//                .pOServiceModule(new POServiceModule())
+//                .networkModule(new NetworkModule())
+//                .picassoModule(new PicassoModule())
                 .build();
 
-        picasso = new Picasso.Builder(this)
-                .downloader(new OkHttp3Downloader(okHttpClient))
-                .build();
-
-//        Picasso.setSingletonInstance(picasso);
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .client(okHttpClient)
-                .baseUrl("http://plusone.loodos.com/api/v1.0/")
-                .build();
-
-        poService = retrofit.create(POService.class);
+        poService = component.getPOService();
+        picasso = component.getPicasso();
     }
 
     public POService getPoService() {
