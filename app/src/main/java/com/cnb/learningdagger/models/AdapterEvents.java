@@ -41,18 +41,19 @@ public class AdapterEvents extends BaseAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         EventListItem eventListItem;
-        if (convertView != null) {
+        if (convertView == null) {
             eventListItem = new EventListItem(context, picasso);
         } else {
             eventListItem = EventListItem.class.cast(convertView);
         }
+        eventListItem.setEvent(eventList.get(position));
         return eventListItem;
     }
 
     public void swapData(PublicEventsResponse publicEvents) {
         eventList.clear();
         if (publicEvents != null) {
-            eventList.addAll(publicEvents.resultObject.allEvents.get(1).events);
+            eventList.addAll(publicEvents.resultObject.allEvents.get(0).events);
         }
         notifyDataSetChanged();
     }

@@ -20,11 +20,8 @@ public class EventListItem extends FrameLayout {
     @BindView(R.id.title)
     TextView title;
 
-    @BindView(R.id.start_date)
-    TextView startDate;
-
-    @BindView(R.id.end_date)
-    TextView endDate;
+    @BindView(R.id.description)
+    TextView description;
 
     @BindView(R.id.event_image)
     ImageView eventImage;
@@ -44,9 +41,7 @@ public class EventListItem extends FrameLayout {
 //        Locale locale = getResources().getConfiguration().locale;
 
         title.setText(event.title);
-        startDate.setText(event.startDate);
-        endDate.setText(event.endDate);
-
+        description.setText(event.description);
 //        secretly dependant on
         picasso.load(event.imageUrl)
                 .into(eventImage);

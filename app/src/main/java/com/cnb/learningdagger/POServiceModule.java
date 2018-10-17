@@ -14,17 +14,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class POServiceModule {
 
     @Provides
+    @LearningDaggerApplicationScope
     public POService poService(Retrofit retrofit) {
         return retrofit.create(POService.class);
     }
 
     @Provides
+    @LearningDaggerApplicationScope
     public Gson gson() {
         GsonBuilder gsonBuilder = new GsonBuilder();
         return gsonBuilder.create();
     }
 
     @Provides
+    @LearningDaggerApplicationScope
     public Retrofit retrofit(OkHttpClient okHttpClient, Gson gson) {
         return new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create(gson))

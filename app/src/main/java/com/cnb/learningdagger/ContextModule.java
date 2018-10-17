@@ -15,6 +15,7 @@ public class ContextModule {
     }
 
     @Provides
+    @LearningDaggerApplicationScope
     public Context context() {
         return context;
     }
